@@ -29,3 +29,9 @@ data/processed/
 
 # Trained models
 models/
+# Raw datasets
+data/raw/
+
+# Processed datasets
+data/processed/
+
