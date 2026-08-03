@@ -1,0 +1,31 @@
+# Virtual Environment
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+
+# Jupyter
+.ipynb_checkpoints/
+
+# VS Code
+.vscode/
+
+# Environment Variables
+.env
+
+# Model Weights
+models/
+
+# Raw Data
+data/raw/
+
+# OS Files
+.DS_Store
+Thumbs.db
+# Generated data
+data/processed/
+
+# Trained models
+models/
