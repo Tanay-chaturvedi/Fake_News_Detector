@@ -1,0 +1,253 @@
+/* ============================================================
+   DESIGN SYSTEM — TYPOGRAPHY
+   
+   Defines:
+   - Font import (Inter variable font)
+   - Global HTML/body reset
+   - Heading styles h1–h3
+   - Body, small, caption text
+   - Utility classes (.text-*, .font-*)
+   ============================================================ */
+
+/* --- Variable font import for best Inter rendering --- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap');
+
+
+/* --------------------------------------------------------
+   GLOBAL RESET
+-------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  /* Crisp text rendering on all platforms */
+  -webkit-font-smoothing:  antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering:          optimizeLegibility;
+  /* Prevent font scaling on iOS orientation change */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family:  var(--font-sans);
+  font-size:    var(--text-body);
+  font-weight:  var(--weight-regular);
+  line-height:  var(--leading-normal);
+  color:        var(--color-text-primary);
+  background-color: var(--color-bg);
+
+  /* Enable optical kerning in Inter variable font */
+  font-feature-settings: var(--font-feature-body);
+  font-optical-sizing:   auto;
+}
+
+
+/* --------------------------------------------------------
+   HEADING SCALE
+   
+   Each heading: bold weight, tight tracking, tight leading.
+   Uses CSS variables so the scale is token-driven.
+-------------------------------------------------------- */
+
+h1 {
+  font-size:      var(--text-h1);
+  font-weight:    var(--weight-bold);
+  line-height:    var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color:          var(--color-text-primary);
+}
+
+h2 {
+  font-size:      var(--text-h2);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-snug);
+  letter-spacing: var(--tracking-snug);
+  color:          var(--color-text-primary);
+}
+
+h3 {
+  font-size:      var(--text-h3);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-snug);
+  letter-spacing: var(--tracking-snug);
+  color:          var(--color-text-primary);
+}
+
+h4 {
+  font-size:      var(--text-body);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-normal);
+  color:          var(--color-text-primary);
+}
+
+
+/* --------------------------------------------------------
+   BODY & PARAGRAPH
+-------------------------------------------------------- */
+
+p {
+  font-size:   var(--text-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-relaxed);
+  color:       var(--color-text-secondary);
+}
+
+p + p {
+  margin-top: var(--space-3);
+}
+
+small {
+  font-size:   var(--text-xs);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+  color:       var(--color-text-muted);
+}
+
+/* Links */
+a {
+  color:           var(--color-primary);
+  text-decoration: none;
+  transition:      color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+a:focus-visible {
+  outline:       2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+
+/* --------------------------------------------------------
+   UTILITY TEXT CLASSES
+   
+   Apply these to any element to override its type scale.
+-------------------------------------------------------- */
+
+.text-display {
+  font-size:      var(--text-display);
+  font-weight:    var(--weight-bold);
+  line-height:    var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.text-h1 {
+  font-size:      var(--text-h1);
+  font-weight:    var(--weight-bold);
+  line-height:    var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+.text-h2 {
+  font-size:      var(--text-h2);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-snug);
+  letter-spacing: var(--tracking-snug);
+}
+
+.text-h3 {
+  font-size:      var(--text-h3);
+  font-weight:    var(--weight-semibold);
+  line-height:    var(--leading-snug);
+}
+
+.text-body {
+  font-size:   var(--text-body);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+}
+
+.text-sm {
+  font-size:   var(--text-sm);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+}
+
+.text-xs {
+  font-size:   var(--text-xs);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-normal);
+}
+
+/* Label style — used above inputs */
+.text-label {
+  font-size:      var(--text-sm);
+  font-weight:    var(--weight-medium);
+  line-height:    var(--leading-normal);
+  letter-spacing: var(--tracking-normal);
+  color:          var(--color-text-primary);
+}
+
+/* Overline / eyebrow — used for section tags */
+.text-overline {
+  font-size:      var(--text-xs);
+  font-weight:    var(--weight-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color:          var(--color-text-muted);
+}
+
+/* Monospaced numbers — for metrics and data readout */
+.text-mono {
+  font-family: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+  font-feature-settings: var(--font-feature-numerals);
+}
+
+/* Tabular numbers for alignment in metric rows */
+.text-tabular {
+  font-feature-settings: 'tnum';
+}
+
+
+/* --------------------------------------------------------
+   COLOR UTILITY CLASSES
+-------------------------------------------------------- */
+
+.text-primary   { color: var(--color-text-primary)   !important; }
+.text-secondary { color: var(--color-text-secondary) !important; }
+.text-muted     { color: var(--color-text-muted)     !important; }
+.text-disabled  { color: var(--color-text-disabled)  !important; }
+
+.text-brand     { color: var(--color-primary)        !important; }
+.text-success   { color: var(--color-success-text)   !important; }
+.text-error     { color: var(--color-error-text)     !important; }
+.text-warning   { color: var(--color-warning-text)   !important; }
+
+
+/* --------------------------------------------------------
+   FONT WEIGHT UTILITIES
+-------------------------------------------------------- */
+
+.font-light    { font-weight: var(--weight-light)    !important; }
+.font-regular  { font-weight: var(--weight-regular)  !important; }
+.font-medium   { font-weight: var(--weight-medium)   !important; }
+.font-semibold { font-weight: var(--weight-semibold) !important; }
+.font-bold     { font-weight: var(--weight-bold)     !important; }
+
+
+/* --------------------------------------------------------
+   ACCESSIBILITY: Focus Visible
+   
+   Default browser outline is removed globally.
+   Every focusable element MUST define its own
+   :focus-visible style. See components.css.
+-------------------------------------------------------- */
+
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline:        2px solid var(--color-primary);
+  outline-offset: 2px;
+}

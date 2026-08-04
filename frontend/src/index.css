@@ -1,0 +1,25 @@
+/* ============================================================
+   DESIGN SYSTEM — ENTRY POINT
+   index.css
+   
+   This file is the single import entry for the entire
+   design system. The import order is critical:
+   
+   1. variables.css  — CSS custom properties (tokens)
+   2. typography.css — Font import, reset, type scale
+   3. components.css — Reusable UI component styles
+   4. layout.css     — Flexbox, grid, spacing utilities
+   5. animations.css — Keyframes, transitions, reduced-motion
+   
+   HOW TO USE:
+   This file is already imported in main.jsx:
+     import "./index.css"
+   No changes to main.jsx are needed.
+   ============================================================ */
+
+@import './styles/variables.css';
+@import './styles/typography.css';
+@import './styles/components.css';
+@import './styles/layout.css';
+@import './styles/animations.css';
+@import './styles/app.css';

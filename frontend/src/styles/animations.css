@@ -1,0 +1,294 @@
+/* ============================================================
+   DESIGN SYSTEM — ANIMATIONS
+   
+   Principles:
+   - Subtle is always better than showy
+   - Animate transform and opacity only (GPU-accelerated)
+   - Never animate layout properties (width, height, padding)
+   - Duration: 120ms fast → 450ms slow
+   - Respect prefers-reduced-motion at all times
+   
+   Table of contents:
+   1. Keyframe definitions
+   2. Utility animation classes
+   3. Hover interaction helpers
+   4. Reduced motion overrides
+   ============================================================ */
+
+
+/* ============================================================
+   1. KEYFRAME DEFINITIONS
+============================================================ */
+
+/* --- Entrance: fade + rise from below --- */
+@keyframes fadeSlideUp {
+  from {
+    opacity:   0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity:   1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Entrance: fade in only --- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* --- Entrance: scale in with spring --- */
+@keyframes scaleIn {
+  from {
+    opacity:   0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity:   1;
+    transform: scale(1);
+  }
+}
+
+/* --- Badge entrance: pop with spring feel --- */
+@keyframes badgePop {
+  0%   {
+    opacity:   0;
+    transform: scale(0.75);
+  }
+  65%  {
+    opacity:   1;
+    transform: scale(1.06);
+  }
+  100% {
+    opacity:   1;
+    transform: scale(1);
+  }
+}
+
+/* --- Progress bar fill entrance --- */
+@keyframes fillGrow {
+  from { transform: scaleX(0); transform-origin: left center; }
+  to   { transform: scaleX(1); transform-origin: left center; }
+}
+
+/* --- Spinner rotation --- */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* --- Pulse: subtle opacity pulse for skeleton loaders --- */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+
+/* --- Shimmer: skeleton loading shimmer effect --- */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* --- Slide in from right (side panel / toast) --- */
+@keyframes slideInRight {
+  from {
+    opacity:   0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity:   1;
+    transform: translateX(0);
+  }
+}
+
+/* --- Slide in from top (dropdown / notification) --- */
+@keyframes slideInDown {
+  from {
+    opacity:   0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity:   1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Exit: fade slide down --- */
+@keyframes fadeSlideDown {
+  from {
+    opacity:   1;
+    transform: translateY(0);
+  }
+  to {
+    opacity:   0;
+    transform: translateY(8px);
+  }
+}
+
+
+/* ============================================================
+   2. UTILITY ANIMATION CLASSES
+   
+   Apply these directly to elements that need entrance effects.
+   These use animation-fill-mode: both so elements start
+   in their "from" state before the animation triggers.
+============================================================ */
+
+.animate-fade-in {
+  animation: fadeIn var(--duration-base) var(--ease-out) both;
+}
+
+.animate-fade-slide-up {
+  animation: fadeSlideUp var(--duration-slow) var(--ease-out) both;
+}
+
+.animate-scale-in {
+  animation: scaleIn var(--duration-slow) var(--ease-spring) both;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight var(--duration-slow) var(--ease-out) both;
+}
+
+.animate-slide-in-down {
+  animation: slideInDown var(--duration-base) var(--ease-out) both;
+}
+
+/* Staggered delay helpers — for list items appearing in sequence */
+.delay-1 { animation-delay: 50ms; }
+.delay-2 { animation-delay: 100ms; }
+.delay-3 { animation-delay: 150ms; }
+.delay-4 { animation-delay: 200ms; }
+.delay-5 { animation-delay: 250ms; }
+
+/* Skeleton loading pulse */
+.skeleton {
+  background:   var(--color-border);
+  border-radius: var(--radius-sm);
+  animation:    pulse 1.8s ease-in-out infinite;
+}
+
+/* Shimmer loading effect (more polished than pulse) */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--color-card)    0%,
+    var(--color-surface) 40%,
+    var(--color-card)    60%,
+    var(--color-card)    100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   3. HOVER INTERACTION HELPERS
+   
+   These transitions are applied to interactive elements
+   to make them feel physically responsive.
+============================================================ */
+
+/* Subtle lift on hover (cards, interactive tiles) */
+.hover-lift {
+  transition: transform var(--duration-base) var(--ease-out),
+              box-shadow var(--duration-base) var(--ease-out);
+}
+
+.hover-lift:hover {
+  transform:  translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Fade opacity on hover (secondary actions, links) */
+.hover-fade {
+  transition: opacity var(--transition-fast);
+}
+
+.hover-fade:hover {
+  opacity: 0.75;
+}
+
+/* Scale on hover (icon buttons, small controls) */
+.hover-scale {
+  transition: transform var(--duration-fast) var(--ease-spring);
+}
+
+.hover-scale:hover  { transform: scale(1.06); }
+.hover-scale:active { transform: scale(0.94); }
+
+/* Border color transition (inputs, cards with hover) */
+.hover-border {
+  transition: border-color var(--transition-base);
+}
+
+.hover-border:hover {
+  border-color: var(--color-border-strong);
+}
+
+
+/* ============================================================
+   4. FOCUS TRANSITIONS
+   
+   All interactive elements animate into their focus state
+   smoothly instead of instantly snapping.
+============================================================ */
+
+input,
+textarea,
+button,
+select,
+a {
+  transition-property: border-color, box-shadow, background-color,
+                       color, opacity, transform;
+  transition-duration: var(--duration-base);
+  transition-timing-function: var(--ease-out);
+}
+
+
+/* ============================================================
+   5. REDUCED MOTION OVERRIDES
+   
+   CRITICAL: Respect OS-level preference for reduced motion.
+   Users with vestibular disorders, epilepsy, or motion
+   sensitivity MUST not see animations. This is a WCAG 2.1
+   requirement (Success Criterion 2.3.3).
+============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration:   0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration:  0.01ms !important;
+    scroll-behavior:      auto !important;
+  }
+
+  .animate-fade-in,
+  .animate-fade-slide-up,
+  .animate-scale-in,
+  .animate-slide-in-right,
+  .animate-slide-in-down,
+  .skeleton,
+  .shimmer {
+    animation: none !important;
+  }
+
+  .hover-lift:hover {
+    transform: none !important;
+  }
+
+  .fill {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .result-card,
+  .badge,
+  .container {
+    animation: none !important;
+  }
+}

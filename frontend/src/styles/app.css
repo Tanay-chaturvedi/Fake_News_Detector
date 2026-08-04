@@ -1,0 +1,619 @@
+/* ============================================================
+   APP LAYOUT — Page-Level Structure
+   Fake News Detector
+   
+   This file contains ONLY page-level layout.
+   It does NOT redefine any component styles.
+   All component styles (buttons, inputs, cards, badges,
+   progress bars) remain in components.css unchanged.
+   
+   Sections:
+   1.  .app              — Full-viewport shell (override)
+   2.  .topnav           — Sticky navigation bar
+   3.  .page-body        — Scrollable page body
+   4.  .page-hero        — Hero header section
+   5.  .page-workspace   — Main content area
+   6.  .workspace-card   — Outer card wrapper
+   7.  .workspace-panel  — Input and Result inner panels
+   8.  .workspace-divider— Horizontal separator between panels
+   9.  .field-group      — Label + input vertical groupings
+   10. .analyze-row      — Button alignment row
+   11. .page-footer      — Minimal footer
+   12. Responsive breakpoints
+   ============================================================ */
+
+
+/* ============================================================
+   1. APP — Full Viewport Shell
+
+   Override the centering behavior from components.css.
+   The new layout is a top-down column, not a centered flex.
+============================================================ */
+
+.app {
+  display:          flex;
+  flex-direction:   column;
+  min-height:       100vh;
+  background-color: var(--color-bg);
+  /* Reset centering from design system default */
+  align-items:      stretch;
+  justify-content:  flex-start;
+  padding:          0;
+}
+
+
+/* ============================================================
+   2. TOP NAVIGATION BAR
+
+   Height:    56px (standard nav height)
+   Position:  Sticky — stays visible on scroll
+   Content:   Brand name + model badge (right-aligned)
+============================================================ */
+
+.topnav {
+  position:         sticky;
+  top:              0;
+  z-index:          var(--z-sticky);
+  height:           56px;
+  background-color: var(--color-bg);
+  border-bottom:    1px solid var(--color-border-subtle);
+  display:          flex;
+  align-items:      center;
+  flex-shrink:      0;
+}
+
+.topnav-inner {
+  width:      100%;
+  max-width:  var(--content-width-lg);
+  margin:     0 auto;
+  padding:    0 var(--space-6);
+  display:    flex;
+  align-items:     center;
+  justify-content: space-between;
+}
+
+.topnav-brand {
+  display:     flex;
+  align-items: center;
+  gap:         var(--space-2);
+  user-select: none;
+}
+
+.topnav-icon {
+  display:     flex;
+  align-items: center;
+  color:       var(--color-primary);
+  flex-shrink: 0;
+}
+
+.topnav-name {
+  font-size:      var(--text-sm);
+  font-weight:    var(--weight-semibold);
+  color:          var(--color-text-primary);
+  letter-spacing: var(--tracking-snug);
+}
+
+/* DistilBERT pill badge in top-right */
+.model-pill {
+  display:        inline-flex;
+  align-items:    center;
+  padding:        var(--space-1) var(--space-3);
+  font-size:      var(--text-xs);
+  font-weight:    var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  color:          var(--color-text-muted);
+  background:     var(--color-surface);
+  border:         1px solid var(--color-border);
+  border-radius:  var(--radius-pill);
+  white-space:    nowrap;
+}
+
+
+/* ============================================================
+   3. PAGE BODY
+
+   Flex column — stacks hero, workspace, footer vertically.
+   Centers all content horizontally.
+============================================================ */
+
+.page-body {
+  flex:           1;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  width:          100%;
+}
+
+
+/* ============================================================
+   4. HERO SECTION
+
+   Communicates what the product does in 3 lines:
+   eyebrow tag → heading → subtext
+
+   Generous vertical whitespace creates premium feel.
+============================================================ */
+
+.page-hero {
+  width:      100%;
+  max-width:  var(--content-width-lg);
+  padding:    var(--space-16) var(--space-6) var(--space-10);
+  text-align: center;
+}
+
+.page-hero-inner {
+  max-width:      600px;
+  margin:         0 auto;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            var(--space-4);
+}
+
+/* Small tag above the main heading */
+.hero-eyebrow {
+  display:        inline-flex;
+  align-items:    center;
+  padding:        var(--space-1) var(--space-3);
+  font-size:      var(--text-xs);
+  font-weight:    var(--weight-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color:          var(--color-primary);
+  background:     var(--color-primary-muted);
+  border:         1px solid rgba(99, 102, 241, 0.22);
+  border-radius:  var(--radius-pill);
+}
+
+/* Primary hero heading — fluid scale */
+.hero-heading {
+  font-size:      clamp(2rem, 5vw, 2.75rem);
+  font-weight:    var(--weight-bold);
+  letter-spacing: var(--tracking-tight);
+  line-height:    var(--leading-tight);
+  color:          var(--color-text-primary);
+  margin:         0;
+}
+
+/* Supporting description below the heading */
+.hero-subtext {
+  font-size:   var(--text-sm);
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-relaxed);
+  color:       var(--color-text-muted);
+  max-width:   500px;
+  margin:      0;
+}
+
+
+/* ============================================================
+   5. PAGE WORKSPACE
+
+   Constrained to content-width-lg (920px) and horizontally
+   padded. Contains the workspace-card.
+============================================================ */
+
+.page-workspace {
+  width:      100%;
+  max-width:  var(--content-width-lg);
+  padding:    0 var(--space-6) var(--space-12);
+}
+
+
+/* ============================================================
+   6. WORKSPACE CARD
+
+   The outer container that holds both panels.
+   Uses animation inherited from design system.
+============================================================ */
+
+.workspace-card {
+  background:    var(--color-card);
+  border:        1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow:    var(--shadow-xl);
+  overflow:      hidden;
+
+  /* Entrance animation */
+  animation:       fadeSlideUp var(--duration-slower) var(--ease-out) both;
+  animation-delay: 80ms;
+}
+
+
+/* ============================================================
+   7. WORKSPACE PANELS
+
+   Each panel is a logical section — Input and Results.
+   Panels share padding, headers, and spacing rules.
+============================================================ */
+
+.workspace-panel {
+  padding: var(--space-8) var(--space-10);
+}
+
+/* Panel header: eyebrow number + heading + subtext */
+.workspace-panel-header {
+  margin-bottom: var(--space-6);
+}
+
+/* "01" / "02" step indicator */
+.panel-eyebrow {
+  display:        block;
+  font-size:      var(--text-xs);
+  font-weight:    var(--weight-semibold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color:          var(--color-text-disabled);
+  margin-bottom:  var(--space-1);
+}
+
+/* Section heading inside the panel */
+.panel-heading {
+  font-size:      var(--text-h3);
+  font-weight:    var(--weight-semibold);
+  color:          var(--color-text-primary);
+  letter-spacing: var(--tracking-snug);
+  line-height:    var(--leading-snug);
+  margin:         0;
+}
+
+/* Hint text under panel heading */
+.panel-subtext {
+  font-size:  var(--text-xs);
+  color:      var(--color-text-muted);
+  margin-top: var(--space-1);
+  line-height: var(--leading-normal);
+}
+
+/* Remove top margin from result-card when inside a workspace-panel 
+   (panel header already provides the separation) */
+.workspace-panel .result-card {
+  margin-top: 0;
+}
+
+/* Remove top margin from empty-state when inside a workspace-panel */
+.workspace-panel .empty-state {
+  padding: var(--space-10) var(--space-6);
+}
+
+
+/* ============================================================
+   8. WORKSPACE DIVIDER
+
+   Hairline separator between input and result panels.
+   Horizontally inset to match panel padding.
+============================================================ */
+
+.workspace-divider {
+  height:     1px;
+  background: var(--color-border-subtle);
+  /* Inset to align with panel content, not panel edges */
+  margin:     0 var(--space-10);
+}
+
+
+/* ============================================================
+   9. FIELD GROUPS
+
+   Wraps label + input/textarea pairs into a vertical group.
+   Provides correct spacing between consecutive fields.
+============================================================ */
+
+.field-group {
+  display:        flex;
+  flex-direction: column;
+}
+
+/* Labels inside workspace panels — override design-system defaults
+   to match the tighter rhythm inside the workspace card */
+.workspace-panel label {
+  margin-top:    var(--space-5);
+  margin-bottom: var(--space-2);
+}
+
+/* First label doesn't need extra top margin — panel header provides it */
+.workspace-panel .field-group:first-of-type label {
+  margin-top: 0;
+}
+
+
+/* ============================================================
+   10. ANALYZE ROW
+
+   Right-aligns the Analyze button.
+   Gives it auto width (not full-width) on desktop.
+   Falls back to full-width on mobile.
+============================================================ */
+
+.analyze-row {
+  display:         flex;
+  justify-content: flex-end;
+  align-items:     center;
+  margin-top:      var(--space-6);
+}
+
+/* Override full-width button from design system for desktop */
+.analyze-row button {
+  width:      auto;
+  min-width:  200px;
+  margin-top: 0;
+}
+
+
+/* ============================================================
+   11. PAGE FOOTER
+============================================================ */
+
+.page-footer {
+  width:        100%;
+  padding:      var(--space-8) var(--space-6);
+  text-align:   center;
+  border-top:   1px solid var(--color-border-subtle);
+  margin-top:   auto;
+}
+
+.footer-text {
+  font-size:      var(--text-xs);
+  font-weight:    var(--weight-regular);
+  color:          var(--color-text-disabled);
+  letter-spacing: var(--tracking-wide);
+}
+
+
+/* ============================================================
+   12. RESPONSIVE BREAKPOINTS
+
+   Tablet   ≤ 768px  — reduce padding, left-align analyze button
+   Mobile   ≤ 480px  — compact hero, further reduce padding
+============================================================ */
+
+@media (max-width: 768px) {
+
+  .page-hero {
+    padding: var(--space-10) var(--space-4) var(--space-6);
+  }
+
+  .page-workspace {
+    padding: 0 var(--space-4) var(--space-8);
+  }
+
+  .workspace-panel {
+    padding: var(--space-6) var(--space-6);
+  }
+
+  .workspace-divider {
+    margin: 0 var(--space-6);
+  }
+
+  /* Full-width button on tablet and below */
+  .analyze-row {
+    justify-content: stretch;
+  }
+
+  .analyze-row button {
+    width:     100%;
+    min-width: unset;
+  }
+
+}
+
+@media (max-width: 480px) {
+
+  .topnav-inner {
+    padding: 0 var(--space-4);
+  }
+
+  .hero-heading {
+    font-size: 1.75rem;
+  }
+
+  .hero-subtext {
+    font-size: var(--text-xs);
+  }
+
+  .workspace-panel {
+    padding: var(--space-5) var(--space-4);
+  }
+
+  .workspace-divider {
+    margin: 0 var(--space-4);
+  }
+
+  .workspace-panel-header {
+    margin-bottom: var(--space-4);
+  }
+
+}
+
+/* ============================================================
+   13. AI SUMMARY & METADATA SECTION
+============================================================ */
+
+.ai-summary {
+  font-size:      var(--text-sm);
+  color:          var(--color-text-secondary);
+  line-height:    var(--leading-relaxed);
+  margin-top:     var(--space-4);
+  margin-bottom:  var(--space-6);
+  padding:        var(--space-3) var(--space-4);
+  background:     rgba(255, 255, 255, 0.02);
+  border-left:    2px solid var(--color-border-strong);
+  border-radius:  0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.analysis-metadata {
+  display:               grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:                   var(--space-3);
+  margin-top:            var(--space-8);
+  padding-top:           var(--space-6);
+  border-top:            1px solid var(--color-border-subtle);
+}
+
+.meta-item {
+  display:        flex;
+  flex-direction: column;
+  gap:            var(--space-1);
+}
+
+.meta-label {
+  font-size:      var(--text-xs);
+  font-weight:    var(--weight-medium);
+  color:          var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+}
+
+.meta-value {
+  font-size:   var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color:       var(--color-text-secondary);
+}
+
+@media (max-width: 600px) {
+  .analysis-metadata {
+    grid-template-columns: 1fr;
+    gap:                   var(--space-3);
+  }
+}
+
+/* ============================================================
+   14. API STATUS & POLISHED FOOTER
+============================================================ */
+
+.topnav-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.api-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  user-select: none;
+}
+
+.api-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-pill);
+}
+
+.api-status-dot.online {
+  background: var(--color-success);
+  box-shadow: 0 0 8px var(--color-success);
+}
+
+.api-status-dot.offline {
+  background: var(--color-error);
+  box-shadow: 0 0 8px var(--color-error);
+}
+
+.api-status-dot.checking {
+  background: var(--color-warning);
+  box-shadow: 0 0 8px var(--color-warning);
+}
+
+.page-footer-inner {
+  max-width: var(--content-width-lg);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+}
+
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.footer-author {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.footer-tech {
+  font-size: var(--text-xs);
+  color: var(--color-text-disabled);
+}
+
+.footer-version {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  padding: 2px 8px;
+  border-radius: var(--radius-xs);
+}
+
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+  text-decoration: none;
+}
+
+.github-link:hover {
+  color: var(--color-text-primary);
+}
+
+@media (max-width: 600px) {
+  .page-footer-inner {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-left {
+    align-items: center;
+  }
+}
+
+/* ============================================================
+   15. AI DISCLAIMER
+============================================================ */
+
+.ai-disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+  font-size: var(--text-xs);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-muted);
+  animation: fadeIn var(--duration-base) var(--ease-out) both;
+}
+
+.ai-disclaimer-icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--color-text-muted);
+}
+
