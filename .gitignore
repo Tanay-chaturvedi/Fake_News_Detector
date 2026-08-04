@@ -1,37 +1,53 @@
+# ============================================================
+   GITIGNORE — Fake News Detector Repository
+============================================================
+
 # Virtual Environment
 .venv/
+env/
+venv/
+ENV/
 
 # Python
 __pycache__/
 *.py[cod]
+*$py.class
 *.pyd
 
-# Jupyter
+# Jupyter Notebooks
 .ipynb_checkpoints/
 
-# VS Code
+# IDE & Editor Settings
 .vscode/
+.idea/
+*.swp
+*.swo
 
 # Environment Variables
 .env
+.env.local
+.env.*.local
 
-# Model Weights
-models/
+# Node & Frontend Build Artifacts
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+dist-ssr/
+*.log
+npm-debug.log*
+yarn-debug.log*
 
-# Raw Data
-data/raw/
+# Model Weights & Binaries (Stored on HuggingFace / Large Storage)
+models/best_model/*.safetensors
+models/best_model/*.bin
 
-# OS Files
+# Large Datasets
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# OS System Files
 .DS_Store
 Thumbs.db
-# Generated data
-data/processed/
-
-# Trained models
-models/
-# Raw datasets
-data/raw/
-
-# Processed datasets
-data/processed/
-
